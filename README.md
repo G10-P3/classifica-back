@@ -10,7 +10,7 @@
   </a>
 </p>
 <p style="text-align: center; text-decoration: none;">
-  <a href="https://app.clickup.com/9011174149/v/b/6-901104032204-2" style="text-decoration: none;">
+  <a href="https://sharing.clickup.com/9011174149/b/h/4-90110818761-2/b81eaa84053640e" style="text-decoration: none;">
     <span>ClickUp</span>
   </a>
 </p>
