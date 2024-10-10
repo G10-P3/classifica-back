@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
+@SuppressWarnings("rawtypes")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -19,6 +19,7 @@ public class UserController {
     @Autowired
     private IUserRepository userRepository;
 
+    
     @PostMapping("/")
     public ResponseEntity createUser(@RequestBody UserModel userModel) {
 

@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.g10.BEM.exceptions.ClassAlreadyExistsException;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 public class ClassesService {
@@ -14,16 +17,12 @@ public class ClassesService {
     @Autowired
     private ClassesRepository classesRepository;
 
-    // Lendo todas as turmas
-    public List<ClassesModel> listarTodas(){
-        return classesRepository.findAll();
+    // Verificando se existe turma por ID
+    public boolean existeClassePorID(UUID id){
+        return classesRepository.existsById(id);
     }
     
-    // Lendo turma por nome
-    public ClassesModel buscarClassePorNome(String className){
-        return classesRepository.findByClassName(className);
-    } 
-
+    
     // Criando turma
     public ClassesModel criarClasse(ClassesModel classesModel) {
         // Validações
@@ -34,17 +33,22 @@ public class ClassesService {
             throw new IllegalArgumentException("O nome da turma não pode ser vazio.");
         }
     
-        // Busca se a turma já existe
-        ClassesModel classe = classesRepository.findByClassName(classesModel.getClassName());
-        if (classe != null) {
-            throw new ClassAlreadyExistsException("Uma turma com o nome " + classesModel.getClassName() + " já existe.");
-        }
-    
         // Salva a nova turma
         return classesRepository.save(classesModel);
     }
+
+
+    // Lendo todas as turmas
+    public List<ClassesModel> listarTodas(){
+        return classesRepository.findAll();
+    }
     
-    
+    // Lendo turma por id
+    public Optional<ClassesModel> buscarClassePorID(UUID id){
+        return classesRepository.findById(id);
+        
+    }
+
 
     // Atualizando as Turmas
     // - Por id:
@@ -54,23 +58,9 @@ public class ClassesService {
             return classesRepository.save(classesModel);
 
         }
-        throw new RuntimeException("Uma turma com o nome " + classesModel.getClassName() + " já existe.");
+        throw new EntityNotFoundException("Uma turma com o id " + classesModel.getId() + " Não existe.");
     }
-
-    // - Por nome da turma:
-    public ClassesModel atualizarClassePorNome(String className, ClassesModel classesModel) {
-        ClassesModel classe = classesRepository.findByClassName(className);
-        
-        if (classe != null) {
-
-            classe.setClassName(classesModel.getClassName());
-            classe.setDescription(classesModel.getDescription());
-
-            return classesRepository.save(classe); 
-        }
-        
-        throw new RuntimeException("Turma não encontrada com o nome: " + className);
-    }
+    
 
     // Deletando turma
     // - Deletando por Id:
