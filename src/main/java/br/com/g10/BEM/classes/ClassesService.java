@@ -64,8 +64,11 @@ public class ClassesService {
             toUpdateClass.setDescription(classesModel.getDescription());
             return classesRepository.save(toUpdateClass);
 
+        }else{
+            
+            throw new EntityNotFoundException("Uma turma com o id " + id + " Não existe.");
+            
         }
-        throw new EntityNotFoundException("Uma turma com o id " + id + " Não existe.");
     }
     
 
