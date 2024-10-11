@@ -52,7 +52,7 @@ public class ClassesController {
 
     // Lendo Classes específicas Por ID:
     @GetMapping("/{id}")
-public ResponseEntity<ClassesModel> buscarPorID(@PathVariable UUID id) {
+    public ResponseEntity<ClassesModel> buscarPorID(@PathVariable UUID id) {
     try {
         Optional<ClassesModel> classe = classesService.buscarClassePorID(id);
 
