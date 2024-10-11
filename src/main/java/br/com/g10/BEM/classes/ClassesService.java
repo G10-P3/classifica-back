@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.com.g10.BEM.exceptions.ClassAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class ClassesService {
         if (classesModel.getClassName() == null || classesModel.getClassName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da turma não pode ser vazio.");
         }
-    
+        
         // Salva a nova turma
         return classesRepository.save(classesModel);
     }
@@ -53,12 +54,18 @@ public class ClassesService {
     // Atualizando as Turmas
     // - Por id:
     public ClassesModel atualizarClassePorID(UUID id, ClassesModel classesModel){
+
         if(classesRepository.existsById(id)){
-            classesModel.setId(id);
-            return classesRepository.save(classesModel);
+            
+            ClassesModel toUpdateClass = classesRepository.findById(id).get();
+            
+
+            toUpdateClass.setClassName(classesModel.getClassName());
+            toUpdateClass.setDescription(classesModel.getDescription());
+            return classesRepository.save(toUpdateClass);
 
         }
-        throw new EntityNotFoundException("Uma turma com o id " + classesModel.getId() + " Não existe.");
+        throw new EntityNotFoundException("Uma turma com o id " + id + " Não existe.");
     }
     
 

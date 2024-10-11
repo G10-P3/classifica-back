@@ -35,4 +35,5 @@ public class ClassesModel {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
 }
