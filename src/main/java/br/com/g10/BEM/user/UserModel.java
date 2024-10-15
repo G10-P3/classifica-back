@@ -1,31 +1,44 @@
 package br.com.g10.BEM.user;
 
-import br.com.g10.BEM.student.StudentModel;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import br.com.g10.BEM.student.StudentModel;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
-// @Data - adiciona os métodos equals, hashCode, toString, getters e setters
-// @Getter - adiciona os métodos getters em todos os atributos
-// @Setter - adiciona os métodos setters em todos os atributos
 @Data
 @Entity
 @Table(name = "users")
+
 public class UserModel {
 
     @Id
-    @Column(name = "cpf")
-    private String cpf; // Usar CPF como chave primária conforme o diagrama
+    @GeneratedValue(generator = "UUID")
+    private UUID id;
+
+    @Column(unique = true)
+    private String username;
+
+    @Column(name = "cpf", unique = true, nullable = false)
+    private String cpf;
+
+    @Column()
+    private String name;
 
     @Column(unique = true, nullable = false)
-    private String email; // Email deve ser único
+    private String email;
 
     @Column(nullable = false)
     private String password;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     @Column(name = "profile_pic")
     private String profilePic;
 
-    // Relacionamento 1-1 com o estudante
+
     @OneToOne(mappedBy = "user")
-    private StudentModel student;
+    private StudentModel student; // Relação com StudentModel
 }
