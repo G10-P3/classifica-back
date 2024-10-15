@@ -1,16 +1,13 @@
 package br.com.g10.BEM.classes;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.g10.BEM.student.StudentModel;
+import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 import java.util.UUID;
 import java.time.LocalDateTime;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 import org.hibernate.annotations.CreationTimestamp;
 
 // @Data - adiciona os métodos equals, hashCode, toString, getters e setters
@@ -19,8 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @Data
 @Entity
 @Table(name = "classes")
-public class ClassesModel {    
-    
+public class ClassesModel {
+
     @Id
     @GeneratedValue(generator = "UUID")
     private UUID id;
@@ -36,4 +33,6 @@ public class ClassesModel {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL)
+    private List<StudentModel> students;
 }
