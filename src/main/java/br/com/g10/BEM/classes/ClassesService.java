@@ -2,24 +2,26 @@ package br.com.g10.BEM.classes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import jakarta.persistence.EntityNotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ClassesService {
-
+    
     @Autowired
     private ClassesRepository classesRepository;
 
     // Verificando se existe turma por ID
-    public boolean existeClassePorID(UUID id) {
+    public boolean existsClassById(UUID id) {
         return classesRepository.existsById(id);
     }
 
     // Criando turma
-    public ClassesModel criarClasse(ClassesModel classesModel) {
+    public ClassesModel createClass(ClassesModel classesModel) {
         // Validações
         if (classesModel == null) {
             throw new IllegalArgumentException("O modelo de classe não pode ser nulo.");
@@ -27,26 +29,26 @@ public class ClassesService {
         if (classesModel.getClassName() == null || classesModel.getClassName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome da turma não pode ser vazio.");
         }
-
+        
         // Salva a nova turma
         return classesRepository.save(classesModel);
     }
 
     // Lendo todas as turmas
-    public List<ClassesModel> listarTodas() {
+    public List<ClassesModel> getAllClasses() {
         return classesRepository.findAll();
     }
 
     // Lendo turma por id
-    public Optional<ClassesModel> buscarClassePorID(UUID id) {
+    public Optional<ClassesModel> getClassById(UUID id) {
         return classesRepository.findById(id);
     }
 
     // Atualizando as Turmas
-    // - Por id:
-    public ClassesModel atualizarClassePorID(UUID id, ClassesModel classesModel) {
+    public ClassesModel updateClassById(UUID id, ClassesModel classesModel) {
         if (classesRepository.existsById(id)) {
-            final ClassesModel toUpdateClass = classesRepository.findById(id).get();
+            ClassesModel toUpdateClass = classesRepository.findById(id).get();
+
             toUpdateClass.setClassName(classesModel.getClassName());
             toUpdateClass.setDescription(classesModel.getDescription());
             return classesRepository.save(toUpdateClass);
@@ -55,19 +57,9 @@ public class ClassesService {
         }
     }
 
-    // Deletando turma
-    // - Deletando por Id:
-    public void deletarClassePorId(UUID id) {
+    // Deletando turma por ID
+    public void deleteClassById(UUID id) {
         classesRepository.deleteById(id);
     }
 
-    // - Deletando por Nome:
-    public void deletarClassePorNome(String name) {
-        final ClassesModel classe = classesRepository.findByClassName(name);
-        if (classe != null) {
-            classesRepository.delete(classe);
-        } else {
-            throw new RuntimeException("Turma de nome: " + name + " não foi encontrada!");
-        }
-    }
 }
