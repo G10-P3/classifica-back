@@ -34,7 +34,7 @@ public class StudentModel {
 
     // Relação opcional-- um estudante pode pertencer a uma turma ou nao
     @ManyToOne
-    @JoinColumn(name = "class_id", nullable = true) // o nullable é true porque um estudante pode nao pertencer a umma turma
+    @JoinColumn(name = "class_id", nullable = true) // É true porque um estudante pode nao pertencer a umma turma
     private ClassesModel classEntity;
 
     @OneToOne

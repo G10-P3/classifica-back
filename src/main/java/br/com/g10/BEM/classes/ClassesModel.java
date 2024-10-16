@@ -27,7 +27,7 @@ public class ClassesModel {
     @Column(unique = true, nullable = false)
     private String className;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     @CreationTimestamp
