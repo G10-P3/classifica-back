@@ -1,0 +1,91 @@
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <!-- Define que todas as violações são tratadas como erro -->
+    <property name="severity" value="error"/>
+
+    <!-- Verificações de formato geral -->
+    <module name="TreeWalker">
+        <!-- Espaços após tokens e ao redor de operadores -->
+        <module name="WhitespaceAfter">
+            <property name="severity" value="error"/>
+        </module>
+
+        <module name="WhitespaceAround">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Não permite blocos vazios sem comentários -->
+        <module name="EmptyBlock">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Variáveis locais devem ser finais sempre que possível -->
+        <module name="FinalLocalVariable">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Define o comprimento máximo de métodos -->
+        <module name="MethodLength">
+            <property name="max" value="100"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Limita a complexidade ciclomática a 10 -->
+        <module name="CyclomaticComplexity">
+            <property name="max" value="10"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Limita o número de classes dependentes -->
+        <module name="ClassFanOutComplexity">
+            <property name="max" value="20"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Verifica indentação consistente com tabs -->
+        <module name="Indentation">
+            <property name="severity" value="error"/>
+            <property name="basicOffset" value="4"/> <!-- Define 1 tab como 4 espaços visuais -->
+            <property name="tabWidth" value="4"/> <!-- Define cada tab como 4 espaços visuais -->
+        </module>
+
+        <!-- Não permite imports não utilizados -->
+        <module name="UnusedImports">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Requer 'this' para acessar membros da instância -->
+        <module name="RequireThis">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Verifica os nomes dos membros da classe -->
+        <module name="MemberName">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Verifica os nomes das constantes -->
+        <module name="ConstantName">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Evita o uso de condicionais inline -->
+        <module name="AvoidInlineConditionals">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Verificação de linhas em branco desnecessárias -->
+        <module name="EmptyLineSeparator">
+            <property name="severity" value="error"/>
+        </module>
+    </module>
+
+    <!-- Define o comprimento máximo de uma linha -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="severity" value="error"/>
+    </module>
+</module>
