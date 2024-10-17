@@ -5,25 +5,20 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import br.com.g10.BEM.student.StudentModel;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "users")
-
 public class UserModel {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    private UUID id;
+    @Column(name = "cpf", unique = true, nullable = false)  // CPF como chave primária
+    private String cpf;
 
     @Column(unique = true)
     private String username;
 
-    @Column(name = "cpf", unique = true, nullable = false)
-    private String cpf;
-
-    @Column()
+    @Column(nullable = false)
     private String name;
 
     @Column(unique = true, nullable = false)
@@ -38,7 +33,6 @@ public class UserModel {
     @Column(name = "profile_pic")
     private String profilePic;
 
-
     @OneToOne(mappedBy = "user")
-    private StudentModel student; // Relação com StudentModel
+    private StudentModel student;  // Relação com StudentModel
 }

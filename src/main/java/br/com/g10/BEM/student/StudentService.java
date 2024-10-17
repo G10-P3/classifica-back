@@ -1,10 +1,11 @@
 package br.com.g10.BEM.student;
 
+import br.com.g10.BEM.user.UserModel;
+import br.com.g10.BEM.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
-
 import java.util.List;
 
 @Service
@@ -13,12 +14,10 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    // Verifica se existe estudante pelo CPF
-    public boolean existsStudentByCpf(String userCpf) {
-        return studentRepository.existsByUserCpf(userCpf);
-    }
+    @Autowired
+    private UserService userService;
 
-    // Criando estudante
+
     public StudentModel createStudent(StudentModel studentModel) {
         if (studentModel == null) {
             throw new IllegalArgumentException("O modelo de estudante não pode ser nulo.");
@@ -26,6 +25,10 @@ public class StudentService {
         if (studentModel.getName() == null || studentModel.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("O nome do estudante não pode ser vazio.");
         }
+
+        UserModel existingUser = userService.findByCpf(studentModel.getUser().getCpf())
+                .orElseThrow(() -> new EntityNotFoundException("Usuário com CPF " + studentModel.getUser().getCpf() + " não encontrado"));
+        studentModel.setUser(existingUser);
 
         return studentRepository.save(studentModel);
     }
@@ -43,7 +46,7 @@ public class StudentService {
 
     // Atualizando estudante pelo CPF
     public StudentModel updateStudentByCPF(String userCpf, StudentModel studentModel) {
-        if (!studentRepository.existsByUserCpf(userCpf)) {
+        if (!studentRepository.existsById(userCpf)) {
             throw new EntityNotFoundException("Estudante com CPF " + userCpf + " não existe.");
         }
 
@@ -60,10 +63,9 @@ public class StudentService {
         return studentRepository.save(toUpdateStudent);
     }
 
-
     // Deletando estudante pelo CPF
     public void deleteStudentByCPF(String userCpf) {
-        if (!studentRepository.existsByUserCpf(userCpf)) {
+        if (!studentRepository.existsById(userCpf)) {
             throw new EntityNotFoundException("Estudante com CPF " + userCpf + " não encontrado.");
         }
         studentRepository.deleteById(userCpf);

@@ -18,8 +18,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    
-    @PostMapping("/")
+
+    @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserModel userModel) {
         try {
             final var userCreated = userService.createUser(userModel);
@@ -30,5 +30,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
     }
-
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public class StudentModel {
 
     @Id
-    @Column(name = "user_cpf")
+    @Column(name = "user_cpf", nullable = false)
     private String userCpf;
 
     @NotBlank(message = "O nome do aluno é obrigatório")
@@ -37,7 +37,9 @@ public class StudentModel {
     @ManyToMany(mappedBy = "students")
     private List<ClassesModel> classes;
 
+
     @OneToOne
-    @JoinColumn(name = "cpf", nullable = false)
+    @MapsId
+    @JoinColumn(name = "user_cpf", referencedColumnName = "cpf", nullable = false)
     private UserModel user;
 }
