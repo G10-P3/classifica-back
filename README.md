@@ -44,8 +44,7 @@ O Classifica é um sistema projetado para resolver as dificuldades enfrentadas p
         <h3>Diagrama de Classes</h3>
       </summary>
 
-      <!-- Embed PDF -->
-      <embed src="caminho_do_arquivo.pdf" type="application/pdf" width="100%" height="600px" />
+  <embed src="caminho_do_arquivo.pdf" type="application/pdf" width="100%" height="600px" />
     </details>
   </ul>
 </details>
