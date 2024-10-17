@@ -31,18 +31,25 @@ public class ExamController {
     // Criando Simulado
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody ExamModel request) {
-
-        final ExamModel examModel = examService.create(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(examModel);
+        try {
+            final ExamModel examModel = examService.create(request);
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(examModel);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // Lendo Todas os Simulados:
     @GetMapping("/")
     public ResponseEntity<List<ExamModel>> getAll() {
-        final List<ExamModel> examList = examService.getAll();
-
-        return ResponseEntity.ok(examList);
+        try {
+            final List<ExamModel> examList = examService.getAll();
+    
+            return ResponseEntity.ok(examList);   
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // Lendo Simulado específica Por ID:
@@ -71,7 +78,8 @@ public class ExamController {
         } catch (EntityNotFoundException error) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error.getMessage());
         } catch (Exception error) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Algum erro ocorreu ao atualizar a turma");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Algum erro ocorreu ao atualizar a turma");
         }
     }
 
@@ -82,7 +90,8 @@ public class ExamController {
             examService.delete(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao deletar o simulado: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erro ao deletar o simulado: " + e.getMessage());
         }
     }
 }
