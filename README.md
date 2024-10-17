@@ -1,6 +1,7 @@
-# projeto 3
+# BEM - Classifica
 
 ## 🗪 Visão Geral
+O Classifica é um sistema projetado para resolver as dificuldades enfrentadas pelos pais no acompanhamento do desempenho acadêmico de seus filhos em cursinhos preparatórios. Ele automatiza o processo de monitoramento, oferecendo uma interface visual e intuitiva que apresenta informações essenciais sobre o progresso dos alunos. O objetivo é fornecer uma solução prática e eficiente para facilitar o envolvimento dos pais no processo educacional. Ademais, também visa a automação do processo por parte dos cursinhos preparatórios. 
 
 ## 🔗 Links importantes
 
@@ -10,13 +11,44 @@
   </a>
 </p>
 <p style="text-align: center; text-decoration: none;">
-  <a href="https://sharing.clickup.com/9011174149/b/h/4-90110818761-2/b81eaa84053640e" style="text-decoration: none;">
-    <span>ClickUp</span>
+  <a href="https://bemclassifica.atlassian.net/jira/software/projects/SCRUM/boards/1/backlog?atlOrigin=eyJpIjoiMzFkMDFlMDljNjhlNDllODkyYjlhYjc2MjE0OWIwOTQiLCJwIjoiaiJ9" style="text-decoration: none;">
+    <span>Jira</span>
+  </a>
+</p>
+<p style="text-align: center; text-decoration: none;">
+  <a href="https://docs.google.com/document/d/17XW69eqJ7ZGDH3FTC5qVOm6NxZia1TlK7bD7gfr_CAI/edit#heading=h.kk1966kbedef" style="text-decoration: none;">
+    <span>Proposta de Solução</span>
+  </a>
+</p>
+<p style="text-align: center; text-decoration: none;">
+  <a href="https://docs.google.com/document/d/1E_iSYx1aWhWKN6WcMktGyDhZ_wHrJrQmyir7xQ7JMO4/edit" style="text-decoration: none;">
+    <span>Relatório Benchmarking</span>
   </a>
 </p>
 
-<summary> <h1> 📝 Status Report 1 </h1> </summary>
+
+<details>
+  <summary>
+    <h1> 📝 Status Report 1 </h1>
+  </summary>
+
+  <ul>
+    <details>
+      <summary>
+        <h3>Diagrama de Classes</h3>
+      </summary>
+
+      <!-- Embed PDF -->
+      <embed src="caminho_do_arquivo.pdf" type="application/pdf" width="100%" height="600px" />
+    </details>
+  </ul>
+</details>
+
+
+
+<details>
 <summary> <h1> 📝 Status Report 2 </h1> </summary>
+</details>
 
 ## 👩‍💻 Membros
 
