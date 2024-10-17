@@ -42,6 +42,7 @@ O Classifica é um sistema projetado para resolver as dificuldades enfrentadas p
     <details>
       <summary>
         <h3>Diagrama de Classes</h3>
+        <img width="1319" alt="diagrama-classes" src="https://github.com/user-attachments/assets/27096996-52fa-4157-9e67-03c89250150b">
       </summary>
 
   <embed src="caminho_do_arquivo.pdf" type="application/pdf" width="100%" height="600px" />
