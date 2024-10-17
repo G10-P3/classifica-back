@@ -72,11 +72,6 @@
             <property name="severity" value="error"/>
         </module>
 
-        <!-- Evita o uso de condicionais inline -->
-        <module name="AvoidInlineConditionals">
-            <property name="severity" value="error"/>
-        </module>
-
         <!-- Verificação de linhas em branco desnecessárias -->
         <module name="EmptyLineSeparator">
             <property name="severity" value="error"/>
