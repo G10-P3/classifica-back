@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,10 +33,9 @@ public class StudentModel {
 
     private String phone;
 
-    // Relação opcional-- um estudante pode pertencer a uma turma ou nao
-    @ManyToOne
-    @JoinColumn(name = "class_id", nullable = true) // É true porque um estudante pode nao pertencer a umma turma
-    private ClassesModel classEntity;
+    // Relação ManyToMany - um estudante pode pertencer a várias turmas
+    @ManyToMany(mappedBy = "students")
+    private List<ClassesModel> classes;
 
     @OneToOne
     @JoinColumn(name = "cpf", nullable = false)
