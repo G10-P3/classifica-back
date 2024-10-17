@@ -2,8 +2,7 @@ package br.com.g10.BEM.exam;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 

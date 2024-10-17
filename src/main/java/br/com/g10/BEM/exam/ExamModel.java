@@ -1,6 +1,5 @@
 package br.com.g10.BEM.exam;
 
-import org.hibernate.validator.constraints.UUID;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import br.com.g10.BEM.result.ResultModel;
 

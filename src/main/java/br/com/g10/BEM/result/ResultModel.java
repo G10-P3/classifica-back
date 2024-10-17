@@ -1,6 +1,6 @@
 package br.com.g10.BEM.result;
 
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
