@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -49,5 +50,11 @@ public class ResultController {
     public ResponseEntity<Void> deleteResult(@PathVariable UUID id) {
         resultService.deleteResult(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/summaries")
+    public ResponseEntity<List<Map<String, Object>>> getExamSummaries() {
+        List<Map<String, Object>> summaries = resultService.getExamSummaries();
+        return ResponseEntity.ok(summaries);
     }
 }

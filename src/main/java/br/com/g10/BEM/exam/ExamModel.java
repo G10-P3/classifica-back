@@ -1,12 +1,13 @@
 package br.com.g10.BEM.exam;
 
-
+import br.com.g10.BEM.classes.ClassesModel;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class ExamModel {
     @Column(nullable = false)
     private int questionsQuantity;
 
-    @NotNull(message = "O simulado precisa ter uma data")
+    @NotNull(message = "O simulado precisa ter uma data de aplicação")
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date date;
@@ -49,5 +50,16 @@ public class ExamModel {
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ResultModel> results;
-}
 
+    @ManyToMany
+    @JoinTable(
+            name = "exam_classes",
+            joinColumns = @JoinColumn(name = "exam_id"),
+            inverseJoinColumns = @JoinColumn(name = "class_id")
+    )
+    private List<ClassesModel> classes;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private Date createdAt;
+}

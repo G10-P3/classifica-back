@@ -12,9 +12,9 @@ import br.com.g10.BEM.exceptions.ExamNotFoundException;
 @Service
 public class ExamService {
     
-    private final IExamRepository examRepository;
+    private final ExamRepository examRepository;
 
-    public ExamService(IExamRepository examRepository) {
+    public ExamService(ExamRepository examRepository) {
         this.examRepository = examRepository;
     }
 
