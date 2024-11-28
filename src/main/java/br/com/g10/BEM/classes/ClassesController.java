@@ -34,7 +34,7 @@ public class ClassesController {
     @PostMapping
     public ResponseEntity createClass(@Valid @RequestBody ClassesModel classesModel) {
 
-        final ClassesModel classModel = classesService.createClass(classesModel);
+        final boolean classModel = classesService.createClass(classesModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(classModel);
     }

@@ -30,7 +30,7 @@ public class ClassesService {
     }
 
     // Criando turma
-    public ClassesModel createClass(ClassesModel classesModel) {
+    public boolean createClass(ClassesModel classesModel) {
         List<StudentModel> persistedStudents = classesModel.getStudents().stream()
                 .map(inputStudent -> {
                     Optional<StudentModel> studentOpt = studentRepository.findByUserCpf(inputStudent.getUserCpf());
@@ -44,7 +44,10 @@ public class ClassesService {
                 })
                 .toList();
         classesModel.setStudents(persistedStudents);
-        return classesRepository.save(classesModel);
+
+        final ClassesModel response = classesRepository.save(classesModel);
+
+        return response != null;
     }
 
     // Lendo todas as turmas
