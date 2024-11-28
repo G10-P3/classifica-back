@@ -14,6 +14,9 @@ import java.util.List;
 public class StudentModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "user_cpf", nullable = false)
     private String userCpf;
 
@@ -37,9 +40,8 @@ public class StudentModel {
     @ManyToMany(mappedBy = "students")
     private List<ClassesModel> classes;
 
-
+    // Correção: Remover @MapsId e usar apenas @JoinColumn
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_cpf", referencedColumnName = "cpf", nullable = false)
+    @JoinColumn(name = "user_cpf", referencedColumnName = "cpf", nullable = false, insertable = false, updatable = false)
     private UserModel user;
 }
