@@ -4,9 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<StudentModel, String> {
-    boolean existsByUserCpf(String userCpf);
     List<StudentModel> findByNameContainingIgnoreCase(String name);
+    Optional<StudentModel> findByUserCpf(String userCpf);
+
 }

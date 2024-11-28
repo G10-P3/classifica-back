@@ -2,6 +2,7 @@ package br.com.g10.BEM.classes;
 
 import br.com.g10.BEM.classes.dto.ClassWithAverageDTO;
 import br.com.g10.BEM.result.ResultModel;
+import br.com.g10.BEM.student.StudentRepository;
 import br.com.g10.BEM.student.dto.StudentDetailsDTO;
 import br.com.g10.BEM.student.StudentModel;
 import br.com.g10.BEM.utils.DateUtils;
@@ -20,6 +21,9 @@ public class ClassesService {
     @Autowired
     private ClassesRepository classesRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
     // Verificando se existe turma por ID
     public boolean existsClassById(UUID id) {
         return classesRepository.existsById(id);
@@ -27,15 +31,19 @@ public class ClassesService {
 
     // Criando turma
     public ClassesModel createClass(ClassesModel classesModel) {
-        // Validações
-        if (classesModel == null) {
-            throw new IllegalArgumentException("O modelo de classe não pode ser nulo.");
-        }
-        if (classesModel.getClassName() == null || classesModel.getClassName().trim().isEmpty()) {
-            throw new IllegalArgumentException("O nome da turma não pode ser vazio.");
-        }
-        
-        // Salva a nova turma
+        List<StudentModel> persistedStudents = classesModel.getStudents().stream()
+                .map(inputStudent -> {
+                    Optional<StudentModel> studentOpt = studentRepository.findByUserCpf(inputStudent.getUserCpf());
+                    if (studentOpt.isEmpty()) {
+                        System.err.println("Estudante com CPF " + inputStudent.getUserCpf() + " não encontrado.");
+                        throw new EntityNotFoundException("Estudante com CPF " + inputStudent.getUserCpf() + " não encontrado.");
+                    }
+                    StudentModel persistedStudent = studentOpt.get();
+                    System.out.println("Estudante encontrado: " + persistedStudent.getName());
+                    return persistedStudent;
+                })
+                .toList();
+        classesModel.setStudents(persistedStudents);
         return classesRepository.save(classesModel);
     }
 
