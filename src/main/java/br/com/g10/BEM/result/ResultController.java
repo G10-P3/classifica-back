@@ -1,8 +1,12 @@
 package br.com.g10.BEM.result;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import br.com.g10.BEM.classes.ClassesModel;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +21,10 @@ public class ResultController {
 
     // Criar um novo resultado
     @PostMapping
-    public ResponseEntity<ResultModel> createResult(@RequestBody ResultModel result) {
-        ResultModel createdResult = resultService.createResult(result);
-        return ResponseEntity.ok(createdResult);
+    public ResponseEntity createResult(@RequestBody ResultModel result) {
+        final boolean createdResult = resultService.createResult(result);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdResult);
     }
 
     // Listar todos os resultados

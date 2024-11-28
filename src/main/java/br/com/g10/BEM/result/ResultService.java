@@ -28,7 +28,7 @@ public class ResultService {
     private StudentRepository studentRepository;
 
 
-    public ResultModel createResult(ResultModel result) {
+    public boolean createResult(ResultModel result) {
         StudentModel student = studentRepository.findByUserCpf(result.getStudent().getUserCpf())
                 .orElseThrow(() -> new EntityNotFoundException("Estudante com CPF " + result.getStudent().getUserCpf() + " não encontrado."));
 
@@ -37,7 +37,9 @@ public class ResultService {
         result.setStudent(student);
         result.setExam(exam);
 
-        return resultRepository.save(result);
+        final ResultModel savedResult = resultRepository.save(result);
+
+        return savedResult != null;
     }
 
     public List<ResultModel> getAllResults() {
