@@ -32,7 +32,7 @@ public class ExamController {
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody ExamModel request) {
         try {
-            final ExamModel examModel = examService.create(request);
+            final boolean examModel = examService.create(request);
             
             return ResponseEntity.status(HttpStatus.CREATED).body(examModel);
         } catch (Exception e) {

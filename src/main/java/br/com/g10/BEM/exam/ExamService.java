@@ -26,7 +26,7 @@ public class ExamService {
         this.examRepository = examRepository;
     }
 
-    public ExamModel create(ExamModel examModel) {
+    public boolean create(ExamModel examModel) {
         System.out.println(examModel.getName());
         // Verifica se o simulado já existe
         final ExamModel existingExam = examRepository.findByName(examModel.getName());
@@ -45,17 +45,14 @@ public class ExamService {
                 .toList();
 
         // Associar as classes encontradas ao simulado
-        System.out.println("Classes associadas: " + persistedClasses.size());
         examModel.setClasses(persistedClasses);
 
         // Salvar o simulado
-        ExamModel savedExam = examRepository.save(examModel);
+        final ExamModel savedExam = examRepository.save(examModel);
         System.out.println(savedExam.getId());
 
-        return savedExam;
-
+        return savedExam != null;
     }
-
 
     public List<ExamModel> getAll() {
         return examRepository.findAll();
