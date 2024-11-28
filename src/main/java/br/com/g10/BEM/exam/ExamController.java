@@ -29,7 +29,7 @@ public class ExamController {
     private ExamService examService;
 
     // Criando Simulado
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity create(@Valid @RequestBody ExamModel request) {
         try {
             final ExamModel examModel = examService.create(request);

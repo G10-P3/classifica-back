@@ -28,8 +28,6 @@ public class ResultModel {
     @Min(value = 0, message = "A pontuação total não pode ser negativa")
     private int totalScore;
 
-    @Column
-    private boolean type;
 
     @ManyToOne
     @JoinColumn(name = "exam_id", nullable = false)

@@ -44,7 +44,6 @@ public class ResultService {
         result.setMathScore(resultDetails.getMathScore());
         result.setPortugueseScore(resultDetails.getPortugueseScore());
         result.setTotalScore(resultDetails.getTotalScore());
-        result.setType(resultDetails.isType());
         result.setExam(resultDetails.getExam());
         result.setStudent(resultDetails.getStudent());
 

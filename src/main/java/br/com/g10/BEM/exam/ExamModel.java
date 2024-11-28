@@ -45,9 +45,6 @@ public class ExamModel {
     @Column(nullable = false)
     private Date date;
 
-    @Column
-    private String answerSheet;
-
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ResultModel> results;
 
