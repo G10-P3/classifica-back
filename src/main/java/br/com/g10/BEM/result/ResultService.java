@@ -4,6 +4,7 @@ import br.com.g10.BEM.classes.ClassesModel;
 import br.com.g10.BEM.exam.ExamModel;
 import br.com.g10.BEM.exam.ExamRepository;
 import br.com.g10.BEM.student.StudentModel;
+import br.com.g10.BEM.student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,8 +24,19 @@ public class ResultService {
     @Autowired
     private ExamRepository examRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
 
     public ResultModel createResult(ResultModel result) {
+        StudentModel student = studentRepository.findByUserCpf(result.getStudent().getUserCpf())
+                .orElseThrow(() -> new EntityNotFoundException("Estudante com CPF " + result.getStudent().getUserCpf() + " não encontrado."));
+
+        ExamModel exam = examRepository.findById(result.getExam().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Simulado com ID " + result.getExam().getId() + " não encontrado."));
+        result.setStudent(student);
+        result.setExam(exam);
+
         return resultRepository.save(result);
     }
 
