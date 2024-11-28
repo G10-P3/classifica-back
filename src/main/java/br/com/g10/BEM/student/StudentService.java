@@ -26,7 +26,7 @@ public class StudentService {
 
 
     @Transactional
-    public StudentModel createStudent(StudentModel studentModel) {
+    public boolean createStudent(StudentModel studentModel) {
         System.out.println(studentModel);
         if (studentModel == null) {
             throw new IllegalArgumentException("O modelo de estudante não pode ser nulo.");
@@ -37,17 +37,17 @@ public class StudentService {
         }
 
         // Buscar o usuário pelo CPF
-        UserModel existingUser = userService.findByCpf(studentModel.getUserCpf())
+        final UserModel existingUser = userService.findByCpf(studentModel.getUserCpf())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário com CPF " + studentModel.getUserCpf() + " não encontrado"));
 
         // Configurar relação entre Student e User
         studentModel.setUser(existingUser);
         studentModel.setUserCpf(existingUser.getCpf());
 
+        final StudentModel savedStudent = studentRepository.save(studentModel);
 
-        System.out.println("AAAAAAAAAAAAAAAAA");
         // Persistir no banco
-        return studentRepository.save(studentModel);
+        return savedStudent != null;
     }
     // Lendo todos os estudantes
     public List<StudentModel> listAllStudents() {

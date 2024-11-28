@@ -21,8 +21,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentModel> createStudent(@RequestBody StudentModel studentModel) {
-        StudentModel savedStudent = studentService.createStudent(studentModel);
+    public ResponseEntity createStudent(@RequestBody StudentModel studentModel) {
+        boolean savedStudent = studentService.createStudent(studentModel);
         return ResponseEntity.ok(savedStudent);
     }
 
