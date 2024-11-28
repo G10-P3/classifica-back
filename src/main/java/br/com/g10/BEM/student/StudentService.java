@@ -1,9 +1,14 @@
 package br.com.g10.BEM.student;
 
+import br.com.g10.BEM.student.dto.StudentDetailsCompleteDTO;
+import br.com.g10.BEM.student.dto.StudentSearchDTO;
 import br.com.g10.BEM.user.UserModel;
 import br.com.g10.BEM.user.UserService;
+import br.com.g10.BEM.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.g10.BEM.result.ResultModel;
+
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -70,4 +75,42 @@ public class StudentService {
         }
         studentRepository.deleteById(userCpf);
     }
+
+    public List<StudentSearchDTO> searchStudentsByName(String name) {
+        List<StudentModel> students = studentRepository.findByNameContainingIgnoreCase(name);
+
+        return students.stream().map(student -> {
+            String className = student.getClasses().isEmpty() ? "Sem turma" : student.getClasses().get(0).getClassName();
+            String shift = student.getClasses().isEmpty() ? "N/A" : student.getClasses().get(0).getShift();
+            double average = student.getResults().stream().mapToInt(ResultModel::getTotalScore).average().orElse(0.0);
+            int age = DateUtils.calculateAge(student.getBirthDate());
+
+            return new StudentSearchDTO(student.getName(), className, shift, age, average);
+        }).toList();
+    }
+
+    public StudentDetailsCompleteDTO getStudentCompleteDetails(String cpf) {
+        StudentModel student = studentRepository.findById(cpf)
+                .orElseThrow(() -> new EntityNotFoundException("Estudante com CPF " + cpf + " não encontrado."));
+        double average = student.getResults().stream()
+                .mapToInt(ResultModel::getTotalScore)
+                .average()
+                .orElse(0.0);
+        return new StudentDetailsCompleteDTO(
+                student.getName(),
+                student.getLastName(),
+                student.getBirthDate(),
+                student.getClasses().isEmpty() ? null : student.getClasses().get(0).getClassName(),
+                student.getClasses().isEmpty() ? null : student.getClasses().get(0).getShift(),
+                student.getGuardianName(),
+                student.getUserCpf(),
+                student.getPhone(),
+                student.getUser().getEmail(),
+                average,
+                student.getUser().getProfilePic()
+        );
+    }
+
+
+
 }

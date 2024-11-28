@@ -1,5 +1,7 @@
 package br.com.g10.BEM.classes;
 
+import br.com.g10.BEM.classes.dto.ClassWithAverageDTO;
+import br.com.g10.BEM.student.dto.StudentDetailsDTO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,4 +87,31 @@ public class ClassesController {
         classesService.deleteClassById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Buscar alunos de uma turma específica
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<StudentDetailsDTO>> getStudentsByClass(@PathVariable UUID id) {
+        try {
+            List<StudentDetailsDTO> students = classesService.getStudentsByClass(id);
+            return ResponseEntity.ok(students);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+    // Listar todas as turmas com suas médias
+    @GetMapping("/with-average")
+    public ResponseEntity<List<ClassWithAverageDTO>> getAllClassesWithAverage() {
+        try {
+            List<ClassWithAverageDTO> classesWithAverages = classesService.getAllClassesWithAverage();
+            return ResponseEntity.ok(classesWithAverages);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 }

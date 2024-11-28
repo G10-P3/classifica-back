@@ -1,5 +1,10 @@
 package br.com.g10.BEM.classes;
 
+import br.com.g10.BEM.classes.dto.ClassWithAverageDTO;
+import br.com.g10.BEM.result.ResultModel;
+import br.com.g10.BEM.student.dto.StudentDetailsDTO;
+import br.com.g10.BEM.student.StudentModel;
+import br.com.g10.BEM.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +66,41 @@ public class ClassesService {
     public void deleteClassById(UUID id) {
         classesRepository.deleteById(id);
     }
+
+
+    public List<StudentDetailsDTO> getStudentsByClass(UUID classId) {
+        ClassesModel classesModel = classesRepository.findById(classId).orElseThrow(() -> new EntityNotFoundException("Turma não encontrada com o ID " + classId));
+
+        return classesModel.getStudents().stream().map(student -> {
+            double average = student.getResults().stream().mapToInt(ResultModel::getTotalScore).average().orElse(0.0);
+            int age = DateUtils.calculateAge(student.getBirthDate());
+
+            return new StudentDetailsDTO(student.getName() + " " + student.getLastName(), age, student.getPhone(), average
+            );
+        }).toList();
+    }
+
+
+
+    public List<ClassWithAverageDTO> getAllClassesWithAverage() {
+        List<ClassesModel> classList = classesRepository.findAll();
+
+        return classList.stream().map(classModel -> {
+            List<StudentModel> students = classModel.getStudents();
+
+            List<ResultModel> results = students.stream().flatMap(student -> student.getResults().stream()).toList();
+
+            double average = results.stream().mapToInt(ResultModel::getTotalScore).average().orElse(0.0);
+            return new ClassWithAverageDTO(
+                    classModel.getClassName(),
+                    classModel.getDescription(),
+                    students.size(),
+                    average
+            );
+        }).toList();
+    }
+
+
+
 
 }

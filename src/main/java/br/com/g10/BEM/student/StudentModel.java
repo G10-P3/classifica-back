@@ -1,6 +1,7 @@
 package br.com.g10.BEM.student;
 
 import br.com.g10.BEM.classes.ClassesModel;
+import br.com.g10.BEM.result.ResultModel;
 import br.com.g10.BEM.user.UserModel;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -42,4 +43,8 @@ public class StudentModel {
     @MapsId
     @JoinColumn(name = "user_cpf", referencedColumnName = "cpf", nullable = false)
     private UserModel user;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ResultModel> results;
+
 }

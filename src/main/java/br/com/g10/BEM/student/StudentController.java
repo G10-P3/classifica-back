@@ -1,5 +1,7 @@
 package br.com.g10.BEM.student;
 
+import br.com.g10.BEM.student.dto.StudentDetailsCompleteDTO;
+import br.com.g10.BEM.student.dto.StudentSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,4 +44,18 @@ public class StudentController {
         studentService.deleteStudentByCPF(userCpf);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<StudentSearchDTO>> searchStudentsByName(@RequestParam String name) {
+        List<StudentSearchDTO> students = studentService.searchStudentsByName(name);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/details/{cpf}")
+    public ResponseEntity<StudentDetailsCompleteDTO> getStudentCompleteDetails(@PathVariable String cpf) {
+        StudentDetailsCompleteDTO studentDetails = studentService.getStudentCompleteDetails(cpf);
+        return ResponseEntity.ok(studentDetails);
+    }
+
+
 }
