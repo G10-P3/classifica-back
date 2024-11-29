@@ -1,5 +1,7 @@
 package br.com.g10.BEM.exam;
 
+import br.com.g10.BEM.classes.ClassesModel;
+import br.com.g10.BEM.classes.ClassesRepository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,29 +30,39 @@ public class ExamController {
     @Autowired
     private ExamService examService;
 
+    @Autowired
+    private ClassesRepository classesRepository;
+
     // Criando Simulado
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody ExamModel request) {
-        try {
-            final boolean examModel = examService.create(request);
-            
-            return ResponseEntity.status(HttpStatus.CREATED).body(examModel);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    public ResponseEntity<br.com.g10.BEM.exam.dto.ExamDTO> create(@RequestBody br.com.g10.BEM.exam.dto.ExamDTO request) {
+        if (request.getClasses() == null || request.getClasses().isEmpty()) {
+            return ResponseEntity.badRequest().body(null); // Ou envie uma mensagem explicativa
         }
+
+        ExamModel examModel = new ExamModel();
+        examModel.setName(request.getName());
+        examModel.setMathQuestionsQuantity(request.getMathQuestionsQuantity());
+        examModel.setPortugueseQuestionsQuantity(request.getPortugueseQuestionsQuantity());
+        examModel.setQuestionsQuantity(request.getQuestionsQuantity());
+        examModel.setDate(request.getDate());
+        examModel.setObservations(request.getObservations());
+
+        // Lógica para buscar e associar as classes ao simulado
+        List<ClassesModel> classes = request.getClasses().stream()
+                .map(classId -> classesRepository.findById(classId)
+                        .orElseThrow(() -> new EntityNotFoundException("Classe com ID " + classId + " não encontrada")))
+                .toList();
+        examModel.setClasses(classes);
+
+        boolean created = examService.create(examModel);
+
+        if (created) {
+            return ResponseEntity.status(201).body(request);
+        }
+        return ResponseEntity.status(500).build();
     }
 
-    // Lendo Todas os Simulados:
-    @GetMapping("/")
-    public ResponseEntity<List<ExamModel>> getAll() {
-        try {
-            final List<ExamModel> examList = examService.getAll();
-    
-            return ResponseEntity.ok(examList);   
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
 
     // Lendo Simulado específica Por ID:
     @GetMapping("/{id}")
@@ -94,4 +106,15 @@ public class ExamController {
                 .body("Erro ao deletar o simulado: " + e.getMessage());
         }
     }
+    // Lendo Todos os Simulados
+    @GetMapping
+    public ResponseEntity<List<ExamModel>> getAllExams() {
+        try {
+            List<ExamModel> exams = examService.getAll(); // Certifique-se de que examService.getAll() esteja implementado.
+            return ResponseEntity.ok(exams);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

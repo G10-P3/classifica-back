@@ -52,6 +52,15 @@ public class ClassesService {
 
     // Lendo todas as turmas
     public List<ClassesModel> getAllClasses() {
+        final List<ClassesModel> classList = classesRepository.findAll();
+
+        classList.forEach(classes -> {
+            classes.getStudents().forEach(student -> {
+                student.setClasses(null);
+                student.setUser(null);
+                student.setResults(null);
+            });
+        });
         return classesRepository.findAll();
     }
 

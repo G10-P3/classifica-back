@@ -1,5 +1,6 @@
 package br.com.g10.BEM.exam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +28,12 @@ public class ExamService {
 
     public boolean create(ExamModel examModel) {
         System.out.println(examModel.getName());
+
+        // Verifica se a lista de classes é nula e a inicializa
+        if (examModel.getClasses() == null) {
+            examModel.setClasses(new ArrayList<>());
+        }
+
         // Verifica se o simulado já existe
         final ExamModel existingExam = examRepository.findByName(examModel.getName());
 
@@ -52,6 +59,7 @@ public class ExamService {
 
         return savedExam != null;
     }
+
 
     public List<ExamModel> getAll() {
         final List<ExamModel> exams = examRepository.findAll();
