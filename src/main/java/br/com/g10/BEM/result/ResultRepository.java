@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ResultRepository extends JpaRepository<ResultModel, UUID> {
     List<ResultModel> findByExam(ExamModel exam);
+
 }

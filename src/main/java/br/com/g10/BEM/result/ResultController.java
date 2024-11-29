@@ -68,4 +68,6 @@ public class ResultController {
         final List<ResultDTO> summaries = resultService.getExamSummaries();
         return summaries;
     }
+
+
 }

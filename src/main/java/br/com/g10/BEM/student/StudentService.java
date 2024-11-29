@@ -56,7 +56,7 @@ public class StudentService {
 
     // Lendo estudante por CPF
     public StudentModel findStudentByCPF(String userCpf) {
-        return studentRepository.findById(userCpf)
+        return studentRepository.findByUserCpf(userCpf)
                 .orElseThrow(() -> new EntityNotFoundException("Estudante com CPF " + userCpf + " não encontrado."));
     }
 
@@ -101,12 +101,17 @@ public class StudentService {
     }
 
     public StudentDetailsCompleteDTO getStudentCompleteDetails(String cpf) {
-        StudentModel student = studentRepository.findById(cpf)
+        // Corrige o método para buscar pelo CPF
+        StudentModel student = studentRepository.findByUserCpf(cpf)
                 .orElseThrow(() -> new EntityNotFoundException("Estudante com CPF " + cpf + " não encontrado."));
+
+        // Calcula a média das notas do estudante
         double average = student.getResults().stream()
                 .mapToInt(ResultModel::getTotalScore)
                 .average()
                 .orElse(0.0);
+
+        // Retorna os detalhes completos do estudante
         return new StudentDetailsCompleteDTO(
                 student.getName(),
                 student.getLastName(),
@@ -121,7 +126,6 @@ public class StudentService {
                 student.getUser().getProfilePic()
         );
     }
-
-
-
 }
+
+
