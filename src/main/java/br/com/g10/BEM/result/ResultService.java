@@ -1,5 +1,6 @@
 package br.com.g10.BEM.result;
 
+import br.com.g10.BEM.classes.ClassesModel;
 import br.com.g10.BEM.exam.ExamModel;
 import br.com.g10.BEM.exam.ExamRepository;
 import br.com.g10.BEM.exam.ExamService;

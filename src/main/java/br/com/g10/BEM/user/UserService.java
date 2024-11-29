@@ -24,8 +24,30 @@ public class UserService {
         return userRepository.save(userModel);
     }
 
-
     public Optional<UserModel> findByCpf(String cpf) {
         return userRepository.findByCpf(cpf);
     }
+
+    public boolean login(LoginDTO loginDTO) {
+        try {
+            final Optional<UserModel> optionalUser = userRepository.findByCpf(loginDTO.getCpf());
+
+            if (optionalUser.isEmpty()) {
+                return false;
+            }
+
+            final UserModel foundUser = optionalUser.get();
+
+            if (!foundUser.getPassword().equals(loginDTO.getPassword())) {
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

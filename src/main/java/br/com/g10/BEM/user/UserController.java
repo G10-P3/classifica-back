@@ -30,4 +30,19 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        try {
+            final var userLogged = userService.login(loginDTO);
+
+            if (userLogged == false) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(true);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("An error occurred: " + e.getMessage());
+        }
+    }
 }
