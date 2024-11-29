@@ -40,12 +40,12 @@ public class ClassesController {
     }
 
     // Lendo Todas as Classes:
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<ClassesModel>> getAllClasses() {
         final List<ClassesModel> classList = classesService.getAllClasses();
-
         return ResponseEntity.ok(classList);
     }
+
 
     // Lendo Classes específicas Por ID:
     @GetMapping("/{id}")
