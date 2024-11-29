@@ -98,18 +98,27 @@ public class ClassesService {
 
         return classList.stream().map(classModel -> {
             List<StudentModel> students = classModel.getStudents();
+            List<ResultModel> results = students.stream()
+                    .flatMap(student -> student.getResults().stream())
+                    .toList();
 
-            List<ResultModel> results = students.stream().flatMap(student -> student.getResults().stream()).toList();
+            double average = results.stream()
+                    .mapToInt(ResultModel::getTotalScore)
+                    .average()
+                    .orElse(0.0);
 
-            double average = results.stream().mapToInt(ResultModel::getTotalScore).average().orElse(0.0);
             return new ClassWithAverageDTO(
+                    classModel.getId().toString(),
                     classModel.getClassName(),
                     classModel.getDescription(),
                     students.size(),
-                    average
+                    average,
+                    classModel.getShift()
             );
         }).toList();
     }
+
+
 
 
 

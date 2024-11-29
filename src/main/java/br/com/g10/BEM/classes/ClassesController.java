@@ -90,7 +90,7 @@ public class ClassesController {
 
     // Buscar alunos de uma turma específica
     @GetMapping("/{id}/students")
-    public ResponseEntity<List<StudentDetailsDTO>> getStudentsByClass(@PathVariable UUID id) {
+    public ResponseEntity<List<StudentDetailsDTO>> getStudentsByClass(@PathVariable("id") UUID id) {
         try {
             List<StudentDetailsDTO> students = classesService.getStudentsByClass(id);
             return ResponseEntity.ok(students);
@@ -100,7 +100,6 @@ public class ClassesController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
 
     // Listar todas as turmas com suas médias
     @GetMapping("/with-average")
