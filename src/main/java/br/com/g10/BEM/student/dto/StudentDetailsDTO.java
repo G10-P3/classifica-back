@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class StudentDetailsDTO {
     private String fullName;
+    private String className;
     private int age;
-    private String contact;
     private double average;
 }

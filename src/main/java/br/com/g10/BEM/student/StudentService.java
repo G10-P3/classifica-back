@@ -1,6 +1,7 @@
 package br.com.g10.BEM.student;
 
 import br.com.g10.BEM.student.dto.StudentDetailsCompleteDTO;
+import br.com.g10.BEM.student.dto.StudentDetailsDTO;
 import br.com.g10.BEM.student.dto.StudentSearchDTO;
 import br.com.g10.BEM.user.UserModel;
 import br.com.g10.BEM.user.UserService;
@@ -126,6 +127,40 @@ public class StudentService {
                 student.getUser().getProfilePic()
         );
     }
+
+    public List<StudentDetailsDTO> getStudentDetails() {
+        List<StudentModel> students = studentRepository.findAll();
+
+        return students.stream()
+                .map(student -> {
+                    double average = student.getResults().stream()
+                            .mapToDouble(ResultModel::getTotalScore)
+                            .average()
+                            .orElse(0.0);
+
+                    String className = student.getClasses().isEmpty()
+                            ? "Sem turma"
+                            : student.getClasses().get(0).getClassName();
+
+                    return new StudentDetailsDTO(
+                            student.getName() + " " + student.getLastName(),
+                            className,
+                            student.getBirthDate() != null
+                                    ? DateUtils.calculateAge(student.getBirthDate())
+                                    : 0,
+                            average
+                    );
+                })
+                .toList();
+    }
+
+
+
+
+
+
+
+
 }
 
 

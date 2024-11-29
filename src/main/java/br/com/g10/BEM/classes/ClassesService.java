@@ -89,13 +89,25 @@ public class ClassesService {
 
 
     public List<StudentDetailsDTO> getStudentsByClass(UUID classId) {
-        ClassesModel classesModel = classesRepository.findById(classId).orElseThrow(() -> new EntityNotFoundException("Turma não encontrada com o ID " + classId));
+        ClassesModel classesModel = classesRepository.findById(classId)
+                .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada com o ID " + classId));
 
         return classesModel.getStudents().stream().map(student -> {
-            double average = student.getResults().stream().mapToInt(ResultModel::getTotalScore).average().orElse(0.0);
+            // Calcula a média das notas
+            double average = student.getResults().stream()
+                    .mapToInt(ResultModel::getTotalScore)
+                    .average()
+                    .orElse(0.0);
+
+            // Calcula a idade
             int age = DateUtils.calculateAge(student.getBirthDate());
 
-            return new StudentDetailsDTO(student.getName() + " " + student.getLastName(), age, student.getPhone(), average
+
+            return new StudentDetailsDTO(
+                    student.getName() + " " + student.getLastName(),
+                    classesModel.getClassName(),
+                    age,
+                    average
             );
         }).toList();
     }
