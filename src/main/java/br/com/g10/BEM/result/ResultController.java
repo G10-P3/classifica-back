@@ -62,4 +62,6 @@ public class ResultController {
         List<Map<String, Object>> summaries = resultService.getExamSummaries();
         return ResponseEntity.ok(summaries);
     }
+
+
 }

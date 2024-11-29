@@ -8,6 +8,7 @@ import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -48,5 +49,19 @@ public class StudentModel {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ResultModel> results;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentModel that = (StudentModel) o;
+        return Objects.equals(userCpf, that.userCpf);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userCpf);
+    }
 
 }

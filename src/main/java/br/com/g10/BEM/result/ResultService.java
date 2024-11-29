@@ -1,6 +1,5 @@
 package br.com.g10.BEM.result;
 
-import br.com.g10.BEM.classes.ClassesModel;
 import br.com.g10.BEM.exam.ExamModel;
 import br.com.g10.BEM.exam.ExamRepository;
 import br.com.g10.BEM.student.StudentModel;
@@ -77,10 +76,20 @@ public class ResultService {
         return exams.stream().flatMap(exam ->
                 exam.getClasses().stream().map(classes -> {
                     List<StudentModel> students = classes.getStudents();
-                    List<ResultModel> examResults = resultRepository.findByExam(exam);
-                    List<ResultModel> classResults = examResults.stream().filter(result -> students.contains(result.getStudent())).toList();
+                    if (students == null) students = List.of();
 
-                    double averageScore = classResults.stream().collect(Collectors.groupingBy(ResultModel::getStudent)).values().stream().mapToDouble(results -> results.stream()
+                    List<ResultModel> examResults = resultRepository.findByExam(exam);
+                    if (examResults == null) examResults = List.of();
+
+                    List<StudentModel> finalStudents = students;
+                    List<ResultModel> classResults = examResults.stream()
+                            .filter(result -> finalStudents.contains(result.getStudent()))
+                            .toList();
+
+                    double averageScore = classResults.stream()
+                            .collect(Collectors.groupingBy(ResultModel::getStudent))
+                            .values().stream()
+                            .mapToDouble(results -> results.stream()
                                     .mapToInt(ResultModel::getTotalScore)
                                     .average().orElse(0.0))
                             .average().orElse(0.0);
@@ -91,9 +100,10 @@ public class ResultService {
                     summary.put("criado", exam.getCreatedAt());
                     summary.put("aplicacao", exam.getDate());
                     summary.put("media", String.format("%.1f", averageScore));
-
                     return summary;
                 })
-        ).collect(Collectors.toList());
+        ).toList();
     }
+
+
 }
