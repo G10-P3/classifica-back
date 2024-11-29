@@ -2,6 +2,8 @@ package br.com.g10.BEM.result;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
@@ -28,7 +30,7 @@ public class ResultModel {
     @Min(value = 0, message = "A pontuação total não pode ser negativa")
     private int totalScore;
 
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "exam_id", nullable = false)
     private ExamModel exam;

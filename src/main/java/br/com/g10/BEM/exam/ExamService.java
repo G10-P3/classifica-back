@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +54,19 @@ public class ExamService {
     }
 
     public List<ExamModel> getAll() {
+        final List<ExamModel> exams = examRepository.findAll();
+
+        // Fazer com que o retorno não tenha referência circular
+        exams.forEach(exam -> {
+            exam.getResults().forEach(result -> {
+                result.setExam(null);
+                result.setStudent(null);
+            });
+            exam.getClasses().forEach(classesModel -> {
+                classesModel.setStudents(null);
+            });
+        });
+
         return examRepository.findAll();
     }
 

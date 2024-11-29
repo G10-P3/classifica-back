@@ -1,5 +1,6 @@
 package br.com.g10.BEM.result;
 
+import br.com.g10.BEM.classes.ClassesModel;
 import br.com.g10.BEM.exam.ExamModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

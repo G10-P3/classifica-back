@@ -30,7 +30,13 @@ public class ResultController {
     // Listar todos os resultados
     @GetMapping
     public ResponseEntity<List<ResultModel>> getAllResults() {
-        List<ResultModel> results = resultService.getAllResults();
+        final List<ResultModel> results = resultService.getAllResults();
+        return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/exams/{examId}")
+    public ResponseEntity<List<ResultModel>> getResultsByExam(@PathVariable UUID examId) {
+        final List<ResultModel> results = resultService.getAllResultsByExam(examId);
         return ResponseEntity.ok(results);
     }
 
@@ -58,8 +64,8 @@ public class ResultController {
     }
 
     @GetMapping("/summaries")
-    public ResponseEntity<List<Map<String, Object>>> getExamSummaries() {
-        List<Map<String, Object>> summaries = resultService.getExamSummaries();
-        return ResponseEntity.ok(summaries);
+    public List<ResultDTO> getExamSummaries() {
+        final List<ResultDTO> summaries = resultService.getExamSummaries();
+        return summaries;
     }
 }
